@@ -1,0 +1,867 @@
+<div class="mapping-page">
+
+  <!-- =====================================================
+       TOP BAR
+  ====================================================== -->
+  <div class="topbar">
+
+    <a
+      class="back-btn"
+      (click)="goBack()">
+      Back
+    </a>
+
+    <div>
+
+      <div class="title">
+        {{ pageTitle }}
+      </div>
+
+      <div class="subtitle">
+        {{
+          selectedBin
+            ? (
+                selectedBin.rack === 'FLOOR'
+                  ? 'Floor Line'
+                  : 'Line: ' + selectedBin.line
+              )
+            : 'Select a material'
+        }}
+      </div>
+
+
+      <!-- MATCHED RACKS -->
+      <div
+        class="matched-racks-bar"
+        *ngIf="activeSearchTerm">
+
+        Found in Rack :
+
+        <strong>
+          {{ matchedRackNames.join(', ') || 'No racks' }}
+        </strong>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       SEARCH PANEL
+  ====================================================== -->
+  <div class="search-panel">
+
+    <div class="search-title">
+      Search Material
+    </div>
+
+
+    <div class="search-box-wrap">
+
+      <div class="search-box">
+
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search Material / Description / Kanban ID"
+          (input)="onSearchInput()"
+          (focus)="onSearchInput()"
+          (blur)="hideSuggestions()"
+          (keyup.enter)="onSearch()" />
+
+        <button
+          type="button"
+          (click)="onSearch()">
+          Search
+        </button>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="clear-btn"
+        (click)="clearSearch()">
+        Clear
+      </button>
+
+
+      <!-- SEARCH SUGGESTIONS -->
+      <div
+        class="suggestions-dropdown"
+        *ngIf="
+          showSuggestions &&
+          filteredSuggestions.length > 0
+        ">
+
+        <div
+          class="suggestion-item"
+          *ngFor="let suggestion of filteredSuggestions"
+          (mousedown)="selectSuggestion(suggestion)">
+
+          <div class="suggestion-title">
+            {{ suggestion.material }}
+          </div>
+
+          <div class="suggestion-meta">
+
+            {{
+              suggestion.rack === 'FLOOR'
+                ? 'Floor'
+                :
+                  'Rack ' + suggestion.rack +
+                  ' | Level ' + suggestion.level +
+                  ' | Bin ' + suggestion.bin
+            }}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         RACK TABS
+    ====================================================== -->
+    <div class="rack-tabs">
+
+      <button
+        type="button"
+        [class.active]="selectedRack === 'ALL'"
+        (click)="selectRack('ALL')">
+        ALL
+      </button>
+
+
+      <button
+        type="button"
+        *ngFor="let rack of rackList"
+        [class.active]="selectedRack === rack"
+        (click)="selectRack(rack)">
+
+        {{ rack === 'FLOOR' ? 'Floor' : rack }}
+
+      </button>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SELECTED LOCATION
+    ====================================================== -->
+    <div class="location-bar">
+
+      {{
+        selectedBin
+          ? (
+              selectedBin.rack === 'FLOOR'
+                ? 'Floor Material'
+                :
+                  'Rack ' + selectedBin.rack +
+                  ' | Level ' + selectedBin.level +
+                  ' | Bin ' + selectedBin.bin
+            )
+          : '--'
+      }}
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       SELECTED MATERIAL DETAILS
+  ====================================================== -->
+  <div class="details-panel">
+
+    <div class="details-header">
+      Selected Material
+    </div>
+
+
+    <div class="details-grid">
+
+      <div class="detail-box">
+        <span>Material</span>
+        <strong>
+          {{ selectedBin?.material || '--' }}
+        </strong>
+      </div>
+
+
+      <div class="detail-box">
+        <span>Description</span>
+        <strong>
+          {{ selectedBin?.description || '--' }}
+        </strong>
+      </div>
+
+
+      <div class="detail-box">
+        <span>Quantity</span>
+        <strong>
+          {{ selectedBin?.qty ?? '--' }}
+        </strong>
+      </div>
+
+
+      <div class="detail-box">
+        <span>Production Area</span>
+        <strong>
+          {{ selectedBin?.area || '--' }}
+        </strong>
+      </div>
+
+
+      <div class="detail-box">
+        <span>Rack</span>
+        <strong>
+          {{ selectedBin?.rack || '--' }}
+        </strong>
+      </div>
+
+
+      <div class="detail-box">
+        <span>Level</span>
+        <strong>
+          {{ selectedBin?.level ?? '--' }}
+        </strong>
+      </div>
+
+
+      <div class="detail-box">
+        <span>Bin</span>
+        <strong>
+          {{ selectedBin?.bin || '--' }}
+        </strong>
+      </div>
+
+
+      <div class="detail-box">
+        <span>Kanban Container</span>
+        <strong>
+          {{ selectedBin?.kanbanContainer || '--' }}
+        </strong>
+      </div>
+
+
+      <div class="detail-box full">
+        <span>ID Number</span>
+        <strong>
+          {{ selectedBin?.idNumber || '--' }}
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       NO SEARCH MATCH
+  ====================================================== -->
+  <div
+    *ngIf="searchTerm && !hasMatches()"
+    class="no-match">
+
+    No material matches "{{ searchTerm }}" in this view
+
+  </div>
+
+
+
+  <!-- =====================================================
+       RACK STAGE
+  ====================================================== -->
+  <div class="rack-stage">
+
+
+    <ng-container
+      *ngFor="let line of lineGroups">
+
+
+      <div
+        class="line-section"
+        *ngIf="
+          selectedLine === 'ALL' ||
+          selectedLine === line.line
+        ">
+
+
+
+        <!-- =================================================
+             LINE TITLE
+        ================================================== -->
+        <div class="rack-wall-title">
+
+          {{
+            selectedLine === 'ALL'
+              ? 'ALL RACKS'
+              : selectedLine
+          }}
+
+        </div>
+
+
+
+        <!-- =================================================
+             MAIN WORKSPACE
+
+             NORMAL:
+             ALL RACKS USE FULL WIDTH
+
+             WHEN BIN SELECTED:
+             SELECTED RACK LEFT
+             DETAILS + IMAGE RIGHT
+        ================================================== -->
+        <div
+          class="rack-workspace"
+          [class.has-selection]="
+            selectedBin &&
+            selectedBin.rack !== 'FLOOR'
+          ">
+
+
+
+          <!-- =============================================
+               LEFT SIDE - RACKS
+          ============================================== -->
+          <div class="rack-column">
+
+
+            <div class="rack-showcase">
+
+
+              <ng-container
+                *ngFor="let rack of line.racks">
+
+
+
+                <!-- =========================================
+                     NORMAL RACK
+                ========================================== -->
+                <div
+                  class="rack-3d"
+                  *ngIf="
+                    rack.rack !== 'FLOOR'
+                    &&
+                    (
+                      selectedRack === 'ALL' ||
+                      selectedRack === rack.rack
+                    )
+                    &&
+                    (
+                      !selectedBin ||
+                      rack.rack === selectedBin.rack
+                    )
+                    &&
+                    rackHasSearchMatch(rack)
+                  ">
+
+
+
+                  <!-- RACK NAME -->
+                  <div class="rack-sign">
+
+                    {{
+                      rack.rack.startsWith('CART')
+                        ? rack.rack
+                        : 'Rack ' + rack.rack
+                    }}
+
+                  </div>
+
+
+
+                  <!-- RACK FRAME -->
+                  <div class="rack-frame">
+
+
+                    <!-- RACK LEVEL -->
+                    <div
+                      class="rack-level-row"
+                      *ngFor="let level of rack.levels">
+
+
+                      <div class="level-badge">
+                        LEVEL {{ level.level }}
+                      </div>
+
+
+
+                      <!-- SHELF -->
+                      <div class="rack-shelf">
+
+
+                        <!-- BIN -->
+                        <div
+                          class="bin-3d"
+                          *ngFor="
+                            let bin of getDisplayBins(level.bins)
+                          "
+                          [class.empty-bin]="
+                            bin.isEmpty
+                          "
+                          [class.selected]="
+                            !bin.isEmpty &&
+                            selectedBinKey === bin.key
+                          "
+                          [class.bin-match]="
+                            !bin.isEmpty &&
+                            matches(bin)
+                          "
+                          [class.bin-dim]="
+                            !bin.isEmpty &&
+                            activeSearchTerm &&
+                            !matches(bin)
+                          "
+                          [class.double-bin]="
+                            !bin.isEmpty &&
+                            (bin.duplicateCount || 1) > 1
+                          "
+                          (click)="
+                            !bin.isEmpty &&
+                            selectBin(bin)
+                          ">
+
+
+
+                          <!-- DUPLICATE COUNT -->
+                          <div
+                            class="bin-count"
+                            *ngIf="
+                              !bin.isEmpty &&
+                              (bin.duplicateCount || 1) > 1
+                            ">
+
+                            x{{ bin.duplicateCount }}
+
+                          </div>
+
+
+
+                          <!-- MATERIAL LABEL -->
+                          <div
+                            class="bin-label"
+                            *ngIf="!bin.isEmpty">
+
+                            {{ bin.material }}
+
+                          </div>
+
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+              </ng-container>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- =============================================
+               RIGHT SIDE
+
+               ONLY APPEARS WHEN A NORMAL BIN IS SELECTED
+          ============================================== -->
+          <div
+            class="details-column"
+            *ngIf="
+              selectedDuplicateBins.length > 0 &&
+              selectedBin?.rack !== 'FLOOR'
+            ">
+
+
+
+            <!-- =========================================
+                 FRONT / BACK BIN VIEW
+            ========================================== -->
+            <div class="selected-bin-large-panel">
+
+
+              <div class="large-panel-title">
+                FRONT / BACK BIN VIEW
+              </div>
+
+
+
+              <!-- DYNAMIC BIN SIZE -->
+              <div
+                class="large-bin-row"
+                [ngClass]="{
+
+                  'bins-2':
+                    selectedDuplicateBins.length <= 2,
+
+                  'bins-4':
+                    selectedDuplicateBins.length >= 3 &&
+                    selectedDuplicateBins.length <= 4,
+
+                  'bins-6':
+                    selectedDuplicateBins.length >= 5 &&
+                    selectedDuplicateBins.length <= 6,
+
+                  'bins-many':
+                    selectedDuplicateBins.length >= 7
+
+                }">
+
+
+
+                <div
+                  class="large-blue-bin"
+                  *ngFor="
+                    let item of selectedDuplicateBins;
+                    let i = index
+                  ">
+
+
+
+                  <!-- FRONT / BACK LABEL -->
+                  <div class="large-bin-position">
+
+                    {{
+                      i === 0
+                        ? 'FRONT BIN'
+                        : 'BACK BIN'
+                    }}
+
+                  </div>
+
+
+
+                  <!-- MATERIAL -->
+                  <div class="large-bin-material">
+
+                    {{ item.material }}
+
+                  </div>
+
+
+
+                  <!-- BIN DETAILS -->
+                  <div class="large-bin-details">
+
+
+                    <div>
+                      <strong>Description:</strong>
+                      {{ item.description }}
+                    </div>
+
+
+                    <div>
+                      <strong>Kanban ID:</strong>
+                      {{ item.idNumber }}
+                    </div>
+
+
+                    <div>
+                      <strong>Qty:</strong>
+                      {{ item.qty }}
+                    </div>
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 MATERIAL IMAGE
+            ========================================== -->
+            <div class="side-material-image-box">
+
+
+              <div class="side-image-title">
+                MATERIAL IMAGE
+              </div>
+
+
+
+              <!-- IMAGE -->
+              <img
+                *ngIf="showImage"
+                [src]="selectedBin?.imagePath"
+                (error)="showImage = false"
+                [alt]="selectedBin?.material" />
+
+
+
+              <!-- IMAGE NOT FOUND -->
+              <div
+                class="image-not-found"
+                *ngIf="!showImage">
+
+
+                IMAGE NOT FOUND
+
+
+                <br><br>
+
+
+                PLEASE UPLOAD THE
+
+
+                <br>
+
+
+                IMAGE IN
+
+
+                <br>
+
+
+                LABBELUI WEBSITE
+
+
+                <br>
+
+
+                FIRST
+
+
+                <br><br>
+
+
+                <a
+                  href="http://10.90.104.34:9222/label"
+                  target="_blank"
+                  class="upload-url">
+
+                  http://10.90.104.34:9222/label
+
+                </a>
+
+
+              </div>
+
+
+
+              <!-- MATERIAL NUMBER -->
+              <div class="side-image-material">
+
+                {{ selectedBin?.material || '--' }}
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+        </div>
+        <!-- END rack-workspace -->
+
+
+
+        <!-- =================================================
+             FLOOR PALLETS
+
+             ALWAYS BELOW THE NORMAL RACK WORKSPACE
+        ================================================== -->
+        <ng-container
+          *ngFor="let rack of line.racks">
+
+
+          <div
+            class="floor-pallet-section"
+            *ngIf="
+              rack.rack === 'FLOOR' &&
+              (
+                selectedRack === 'ALL' ||
+                selectedRack === 'FLOOR'
+              )
+            ">
+
+
+
+            <div class="floor-title">
+              Floor Pallets
+            </div>
+
+
+
+            <div class="pallet-grid">
+
+
+              <ng-container
+                *ngFor="let level of rack.levels">
+
+
+                <div
+                  class="pallet-wrapper"
+                  *ngFor="let bin of level.bins"
+                  [class.selected]="
+                    selectedBinKey === bin.key
+                  "
+                  [class.bin-match]="
+                    matches(bin)
+                  "
+                  [class.bin-dim]="
+                    activeSearchTerm &&
+                    !matches(bin)
+                  "
+                  (click)="selectBin(bin)">
+
+
+
+                  <div class="pallet-card">
+
+                    <div class="pallet-top">
+                      PALLET
+                    </div>
+
+                  </div>
+
+
+
+                  <div class="pallet-name">
+
+                    {{ bin.material }}
+
+                  </div>
+
+
+                </div>
+
+
+              </ng-container>
+
+
+            </div>
+
+          </div>
+
+
+        </ng-container>
+
+
+
+        <!-- =================================================
+             FLOOR MATERIAL IMAGE
+
+             ONLY SHOW WHEN FLOOR PALLET SELECTED
+        ================================================== -->
+        <div
+          class="floor-details-column"
+          *ngIf="
+            selectedBin?.rack === 'FLOOR'
+          ">
+
+
+
+          <div class="side-material-image-box">
+
+
+            <div class="side-image-title">
+
+              FLOOR MATERIAL IMAGE
+
+            </div>
+
+
+
+            <!-- FLOOR IMAGE -->
+            <img
+              *ngIf="showImage"
+              [src]="selectedBin?.imagePath"
+              (error)="showImage = false"
+              [alt]="selectedBin?.material" />
+
+
+
+            <!-- FLOOR IMAGE NOT FOUND -->
+            <div
+              class="image-not-found"
+              *ngIf="!showImage">
+
+
+              IMAGE NOT FOUND
+
+
+              <br><br>
+
+
+              PLEASE UPLOAD THE
+
+
+              <br>
+
+
+              IMAGE IN
+
+
+              <br>
+
+
+              LABBELUI WEBSITE
+
+
+              <br>
+
+
+              FIRST
+
+
+              <br><br>
+
+
+              <a
+                href="http://10.90.104.34:9222/label"
+                target="_blank"
+                class="upload-url">
+
+                http://10.90.104.34:9222/label
+
+              </a>
+
+
+            </div>
+
+
+
+            <div class="side-image-material">
+
+              {{ selectedBin?.material || '--' }}
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</div>

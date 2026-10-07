@@ -1,0 +1,1600 @@
+.mapping-page {
+  min-height: 100vh;
+  background: #f3f3f3;
+  padding: 18px;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1f1f1f;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.back-btn {
+  background: #fff;
+  color: #c40000;
+  text-decoration: none;
+  padding: 10px 16px;
+  font-weight: 700;
+  border: 1px solid #d9d9d9;
+  border-left: 4px solid #c40000;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #222;
+}
+
+.subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #666;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   COMMON PANELS
+========================================================= */
+
+.search-panel,
+.details-panel,
+.rack-card {
+  background: #fff;
+  border: 1px solid #dddddd;
+  border-top: 4px solid #c40000;
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-panel {
+  padding: 18px;
+}
+
+.search-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.search-box-wrap {
+  position: relative;
+  z-index: 20;
+}
+
+.search-box {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+}
+
+.search-box input {
+  height: 46px;
+  border: 1px solid #cfcfcf;
+  border-right: 0;
+  padding: 0 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: #c40000;
+}
+
+.search-box button {
+  height: 46px;
+  border: 0;
+  background: #c40000;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   SEARCH SUGGESTIONS
+========================================================= */
+
+.suggestions-dropdown {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  right: 120px;
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
+  border-top: 0;
+  z-index: 9999;
+  max-height: 320px;
+  overflow-y: auto;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+}
+
+.suggestion-item {
+  padding: 10px 14px;
+  border-bottom: 1px solid #eeeeee;
+  cursor: pointer;
+  background: #ffffff;
+}
+
+.suggestion-item:hover {
+  background: #fff4f4;
+}
+
+.suggestion-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #222222;
+}
+
+.suggestion-meta {
+  font-size: 11px;
+  color: #666666;
+  margin-top: 4px;
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   LOCATION BAR
+========================================================= */
+
+.location-bar {
+  margin-top: 12px;
+  background: #f7f7f7;
+  border-left: 4px solid #c40000;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   RACK TABS
+========================================================= */
+
+.rack-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin-top: 14px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 6px;
+  direction: ltr;
+}
+
+.rack-tabs button {
+  min-width: 86px;
+  height: 36px;
+  border: 4px solid #d4d4d4;
+  background: #fff;
+  color: #333;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 12px;
+  flex: 0 0 auto;
+}
+
+.rack-tabs button.active {
+  background: #c40000;
+  border-color: #c40000;
+  color: #fff;
+}
+
+
+/* =========================================================
+   SELECTED MATERIAL DETAILS
+========================================================= */
+
+.details-header {
+  padding: 12px 16px;
+  background: #fafafa;
+  border-bottom: 1px solid #ececec;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px;
+}
+
+.detail-box {
+  border: 1px solid #e4e4e4;
+  background: #fff;
+  padding: 12px;
+}
+
+.detail-box.full {
+  grid-column: 1 / -1;
+}
+
+.detail-box span {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #8a8a8a;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.detail-box strong {
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   NO MATCH
+========================================================= */
+
+.no-match {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-left: 4px solid #c40000;
+  padding: 18px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   RACK STAGE
+========================================================= */
+
+.rack-stage {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  overflow-x: auto;
+  overflow-y: visible;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #f7f7f7 0%,
+      #e2e2e2 70%
+    );
+
+  border-radius: 6px;
+  padding: 30px 24px 46px;
+  margin-top: 10px;
+}
+
+
+/* =========================================================
+   NORMAL / ALL-RACK WORKSPACE
+========================================================= */
+
+.rack-workspace {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.rack-column {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.rack-wall-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #000;
+  margin-bottom: 28px;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   ALL RACK VIEW
+========================================================= */
+
+.rack-showcase {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(430px, 1fr));
+
+  gap: 26px;
+
+  width: 100%;
+  min-width: 1380px;
+
+  align-items: start;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   INDIVIDUAL 3D RACK
+========================================================= */
+
+.rack-3d {
+  position: relative;
+
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+
+  padding: 62px 32px 34px;
+
+  min-height: 520px;
+
+  margin: 0;
+
+  box-sizing: border-box;
+
+  filter:
+    drop-shadow(
+      0 26px 22px rgba(0, 0, 0, 0.28)
+    );
+}
+
+
+/* =========================================================
+   RACK SIGN
+========================================================= */
+
+.rack-sign {
+  position: absolute;
+
+  top: 0;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  min-width: 190px;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #eeeeee
+    );
+
+  border: 1px solid #bdbdbd;
+
+  text-align: center;
+
+  font-size: 22px;
+  font-weight: 900;
+
+  padding: 12px 22px;
+
+  z-index: 10;
+
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================================
+   RACK FRAME
+========================================================= */
+
+.rack-frame {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  padding: 36px 26px 28px;
+
+  min-height: 420px;
+
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      90deg,
+      #111 0 7px,
+      #eee8d2 7px 18px,
+      #fff 18px 25px,
+      transparent 25px calc(100% - 25px),
+      #fff calc(100% - 25px) calc(100% - 18px),
+      #eee8d2 calc(100% - 18px) calc(100% - 7px),
+      #111 calc(100% - 7px)
+    );
+}
+
+
+/* TOP BEAM */
+
+.rack-frame::before {
+  content: '';
+
+  position: absolute;
+
+  left: 6px;
+  right: 6px;
+  top: 20px;
+
+  height: 14px;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #d9d1b8 55%,
+      #9f987f
+    );
+
+  border-radius: 999px;
+
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,0.9),
+    0 3px 5px rgba(0,0,0,0.35);
+
+  z-index: 2;
+}
+
+
+/* BOTTOM FEET */
+
+.rack-frame::after {
+  content: '';
+
+  position: absolute;
+
+  left: 4px;
+  right: 4px;
+
+  bottom: -12px;
+
+  height: 18px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #111 0 22px,
+      transparent 22px calc(100% - 22px),
+      #111 calc(100% - 22px)
+    );
+}
+
+
+/* =========================================================
+   RACK LEVEL
+========================================================= */
+
+.rack-level-row {
+  position: relative;
+  margin-bottom: 45px;
+}
+
+.rack-level-row:last-child {
+  margin-bottom: 0;
+}
+
+.level-badge {
+  position: absolute;
+
+  left: -82px;
+  top: 48px;
+
+  background:
+    linear-gradient(
+      #444,
+      #1f1f1f
+    );
+
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 900;
+
+  padding: 8px 10px;
+
+  border-radius: 4px;
+
+  white-space: nowrap;
+
+  z-index: 8;
+}
+
+
+/* =========================================================
+   RACK SHELF
+========================================================= */
+
+.rack-shelf {
+  display: grid;
+
+  grid-template-columns:
+    repeat(6, minmax(0, 1fr));
+
+  gap: 8px;
+
+  position: relative;
+
+  width: 100%;
+
+  padding: 20px 10px 28px;
+
+  min-height: 94px;
+
+  box-sizing: border-box;
+}
+
+
+/* FRONT SHELF POLE */
+
+.rack-shelf::after {
+  content: '';
+
+  position: absolute;
+
+  left: -4px;
+  right: -4px;
+
+  bottom: 4px;
+
+  height: 15px;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #d9d1b8 55%,
+      #8f8870
+    );
+
+  border-radius: 999px;
+
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,0.9),
+    0 4px 6px rgba(0,0,0,0.45);
+
+  z-index: 5;
+}
+
+
+/* BLACK CONNECTORS */
+
+.rack-shelf::before {
+  content: '';
+
+  position: absolute;
+
+  left: -12px;
+  right: -12px;
+
+  bottom: 2px;
+
+  height: 20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #111 0 22px,
+      transparent 22px 24%,
+      #111 24% 28%,
+      transparent 28% 48%,
+      #111 48% 52%,
+      transparent 52% 72%,
+      #111 72% 76%,
+      transparent 76% calc(100% - 22px),
+      #111 calc(100% - 22px)
+    );
+
+  z-index: 6;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   3D BIN
+========================================================= */
+
+.bin-3d {
+  position: relative;
+
+  height: 88px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0c467e 0%,
+      #06315f 48%,
+      #021a33 100%
+    );
+
+  border: 3px solid #05294f;
+
+  border-radius:
+    8px 8px 12px 12px;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  z-index: 4;
+
+  transform:
+    perspective(700px)
+    rotateX(7deg)
+    skewX(-2deg);
+
+  box-shadow:
+    7px 0 0 #041f3c,
+    0 9px 0 #02192f,
+    0 16px 18px rgba(0,0,0,0.45);
+}
+
+.bin-3d::before {
+  content: '';
+
+  position: absolute;
+
+  top: 8px;
+  left: 8px;
+  right: 8px;
+
+  height: 36px;
+
+  background:
+    linear-gradient(
+      #031425,
+      #020b14
+    );
+
+  border-radius: 5px;
+
+  box-shadow:
+    inset 0 8px 12px rgba(0,0,0,0.85);
+}
+
+.bin-3d::after {
+  content: '';
+
+  position: absolute;
+
+  left: 8px;
+  right: 8px;
+
+  bottom: 10px;
+
+  height: 20px;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #dedede
+    );
+
+  border:
+    1px solid #b7b7b7;
+
+  border-radius: 3px;
+}
+
+.bin-label {
+  position: absolute;
+
+  left: 8px;
+  right: 8px;
+
+  bottom: 14px;
+
+  z-index: 3;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  color: #111;
+
+  text-align: center;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  line-height: 14px;
+}
+
+.bin-3d:hover,
+.bin-3d.selected {
+  border-color: #ffcc00;
+
+  box-shadow:
+    7px 0 0 #041f3c,
+    0 9px 0 #02192f,
+    0 0 0 4px rgba(255,204,0,0.9);
+}
+
+.bin-3d.bin-match {
+  border-color: #ffcc00;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0d5fae 0%,
+      #06417d 48%,
+      #022448 100%
+    );
+
+  box-shadow:
+    7px 0 0 #041f3c,
+    0 9px 0 #02192f,
+    0 0 0 5px rgba(255,204,0,1);
+}
+
+.bin-3d.bin-dim {
+  opacity: 0.25;
+}
+
+
+/* =========================================================
+   DOUBLE BIN
+========================================================= */
+
+.bin-3d.double-bin {
+  position: relative;
+  z-index: 2;
+}
+
+.bin-3d.double-bin::before {
+  content: '';
+
+  position: absolute;
+
+  top: -10px;
+  left: 12px;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #0f5fad 0%,
+      #09498a 40%,
+      #06396d 100%
+    );
+
+  border:
+    3px solid #02274b;
+
+  box-shadow:
+    0 8px 14px rgba(0,0,0,.35);
+
+  z-index: -1;
+}
+
+
+/* =========================================================
+   DUPLICATE BADGE
+========================================================= */
+
+.bin-count {
+  position: absolute;
+
+  top: 4px;
+  right: 4px;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: #ffd400;
+
+  color: #000;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 2px 6px rgba(0,0,0,.4);
+
+  z-index: 20;
+}
+
+
+/* =========================================================
+   EMPTY BIN
+========================================================= */
+
+.bin-3d.empty-bin {
+  opacity: 0.22;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0c467e,
+      #06315f,
+      #02182f
+    );
+
+  border-style: dashed;
+
+  cursor: default;
+
+  box-shadow:
+    6px 0 0 rgba(3,31,61,0.5),
+    0 8px 0 rgba(2,23,45,0.5);
+}
+
+.bin-3d.empty-bin::before,
+.bin-3d.empty-bin::after,
+.bin-3d.empty-bin .bin-label,
+.bin-3d.empty-bin .bin-count {
+  display: none;
+}
+
+
+/* =========================================================
+   SELECTED VIEW
+========================================================= */
+
+.rack-workspace.has-selection {
+  display: grid;
+
+  grid-template-columns:
+    760px 800px;
+
+  gap: 24px;
+
+  align-items: start;
+
+  width: 1584px;
+  min-width: 1584px;
+
+  margin: 0 auto;
+
+  box-sizing: border-box;
+}
+
+.rack-workspace.has-selection .rack-column {
+  width: 760px;
+  min-width: 760px;
+}
+
+.rack-workspace.has-selection .rack-showcase {
+  display: grid;
+
+  grid-template-columns: 1fr;
+
+  width: 760px;
+  min-width: 760px;
+
+  gap: 0;
+}
+
+.rack-workspace.has-selection .rack-3d {
+  width: 740px;
+  max-width: 740px;
+  min-width: 740px;
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   RIGHT SIDE DETAILS
+========================================================= */
+
+.details-column {
+  display: grid;
+
+  grid-template-columns:
+    440px 340px;
+
+  gap: 20px;
+
+  align-items: start;
+
+  width: 800px;
+  min-width: 800px;
+
+  margin: 0;
+
+  position: static;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   SELECTED BIN PANEL
+========================================================= */
+
+.selected-bin-large-panel {
+  position: static;
+
+  width: 440px;
+  min-width: 440px;
+
+  margin: 0;
+
+  padding: 8px;
+
+  box-sizing: border-box;
+
+  border-radius: 16px;
+
+  z-index: auto;
+}
+
+.large-panel-title {
+  text-align: center;
+
+  font-size: 24px;
+  font-weight: 900;
+
+  margin-bottom: 20px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   DYNAMIC BIN GRID
+========================================================= */
+
+.large-bin-row {
+  display: grid;
+
+  width: 100%;
+
+  justify-content: center;
+  align-items: start;
+
+  box-sizing: border-box;
+}
+
+.large-bin-row.bins-2 {
+  grid-template-columns:
+    repeat(2, 190px);
+
+  gap: 20px;
+}
+
+.large-bin-row.bins-2 .large-blue-bin {
+  width: 190px;
+  height: 180px;
+}
+
+.large-bin-row.bins-4 {
+  grid-template-columns:
+    repeat(2, 180px);
+
+  gap: 18px;
+}
+
+.large-bin-row.bins-4 .large-blue-bin {
+  width: 180px;
+  height: 165px;
+}
+
+.large-bin-row.bins-6 {
+  grid-template-columns:
+    repeat(3, 132px);
+
+  gap: 12px;
+}
+
+.large-bin-row.bins-6 .large-blue-bin {
+  width: 132px;
+  height: 150px;
+}
+
+.large-bin-row.bins-many {
+  grid-template-columns:
+    repeat(3, 125px);
+
+  gap: 11px;
+}
+
+.large-bin-row.bins-many .large-blue-bin {
+  width: 125px;
+  height: 138px;
+}
+
+
+/* =========================================================
+   LARGE BLUE BIN
+========================================================= */
+
+.large-blue-bin {
+  position: relative;
+
+  left: 0;
+
+  min-width: 0;
+  min-height: 0;
+
+  padding: 12px 10px;
+
+  box-sizing: border-box;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255,255,255,0.18),
+      transparent 24%
+    ),
+    linear-gradient(
+      145deg,
+      #0b63b5 0%,
+      #06396d 52%,
+      #02182f 100%
+    );
+
+  border:
+    4px solid #05294f;
+
+  border-radius:
+    12px 12px 18px 18px;
+
+  transform:
+    perspective(900px)
+    rotateX(6deg)
+    rotateY(-3deg);
+
+  box-shadow:
+    8px 0 0 #031f3d,
+    0 10px 0 #02172d,
+    14px 16px 18px rgba(0,0,0,0.35);
+
+  overflow: hidden;
+}
+
+.large-blue-bin::before {
+  content: '';
+
+  position: absolute;
+
+  top: 8px;
+  left: 8px;
+  right: 8px;
+
+  height: 34px;
+
+  background:
+    linear-gradient(
+      #061c32,
+      #01070d
+    );
+
+  border-radius: 6px;
+
+  box-shadow:
+    inset 0 8px 12px rgba(0,0,0,0.95);
+}
+
+.large-blue-bin::after {
+  content: '';
+
+  position: absolute;
+
+  left: 10px;
+  right: 10px;
+
+  bottom: 10px;
+
+  height: 22px;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #dedede
+    );
+
+  border:
+    1px solid #b7b7b7;
+
+  border-radius: 4px;
+
+  z-index: 1;
+}
+
+.large-bin-position,
+.large-bin-material,
+.large-bin-details {
+  position: relative;
+  z-index: 2;
+}
+
+.large-bin-position {
+  background: #ffcc00;
+  color: #111;
+
+  display: inline-block;
+
+  padding: 4px 8px;
+
+  border-radius: 999px;
+
+  font-weight: 900;
+
+  margin-bottom: 40px;
+
+  white-space: nowrap;
+}
+
+.large-bin-material {
+  position: absolute;
+
+  left: 10px;
+  right: 10px;
+
+  bottom: 12px;
+
+  background: transparent;
+
+  color: #111;
+
+  padding: 0;
+
+  font-weight: 900;
+
+  text-align: center;
+
+  z-index: 3;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.large-bin-details {
+  line-height: 1.25;
+
+  margin-top: -20px;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   DYNAMIC BIN TEXT
+========================================================= */
+
+.bins-2 .large-bin-position {
+  font-size: 10px;
+}
+
+.bins-2 .large-bin-details {
+  font-size: 11px;
+}
+
+.bins-2 .large-bin-material {
+  font-size: 12px;
+}
+
+.bins-4 .large-bin-position {
+  font-size: 9px;
+}
+
+.bins-4 .large-bin-details {
+  font-size: 10px;
+}
+
+.bins-4 .large-bin-material {
+  font-size: 11px;
+}
+
+.bins-6 .large-bin-position {
+  font-size: 8px;
+  padding: 3px 6px;
+}
+
+.bins-6 .large-bin-details {
+  font-size: 8px;
+  line-height: 1.18;
+}
+
+.bins-6 .large-bin-material {
+  font-size: 9px;
+}
+
+.bins-many .large-bin-position {
+  font-size: 7px;
+  padding: 3px 5px;
+}
+
+.bins-many .large-bin-details {
+  font-size: 7.5px;
+  line-height: 1.15;
+}
+
+.bins-many .large-bin-material {
+  font-size: 8px;
+}
+
+
+/* =========================================================
+   MATERIAL IMAGE BOX
+========================================================= */
+
+.side-material-image-box {
+  position: static;
+
+  width: 340px;
+  min-width: 340px;
+
+  min-height: 300px;
+
+  margin: 0;
+
+  background: #ffffff;
+
+  border:
+    2px solid #b5b5b5;
+
+  border-radius: 14px;
+
+  padding: 14px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.20);
+}
+
+.side-image-title {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 14px;
+  color: #111;
+}
+
+.side-material-image-box img {
+  display: block;
+
+  width: 100%;
+
+  height: 250px;
+
+  object-fit: contain;
+  object-position: center;
+
+  background: #ffffff;
+
+  margin: 0 auto;
+}
+
+.side-image-material {
+  margin-top: 12px;
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  color: #111;
+
+  text-align: center;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.image-not-found {
+  width: 100%;
+
+  height: 250px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  font-size: 15px;
+  font-weight: 900;
+
+  color: #c40000;
+
+  border:
+    2px dashed #c40000;
+
+  border-radius: 10px;
+
+  padding: 14px;
+
+  box-sizing: border-box;
+}
+
+.upload-url {
+  display: block;
+
+  margin-top: 20px;
+
+  color: #0066cc;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  text-decoration: underline;
+
+  word-break: break-all;
+}
+
+
+/* =========================================================
+   FLOOR PALLET SECTION
+========================================================= */
+
+.floor-pallet-section {
+  width: 100%;
+
+  margin-top: 28px;
+
+  background: #f6f6f6;
+
+  border: 1px solid #d0d0d0;
+
+  border-top:
+    5px solid #c40000;
+
+  padding: 22px;
+
+  border-radius: 8px;
+
+  box-sizing: border-box;
+}
+
+.floor-title {
+  font-size: 26px;
+
+  font-weight: 900;
+
+  margin-bottom: 18px;
+
+  color: #222;
+}
+
+.pallet-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, 190px);
+
+  gap: 34px;
+
+  align-items: start;
+
+  justify-content: start;
+}
+
+.pallet-wrapper {
+  width: 190px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.pallet-card {
+  position: relative;
+
+  width: 165px;
+  height: 100px;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      #c8893b 0 28%,
+      #9f5f1d 28% 48%,
+      #c8893b 48% 70%,
+      #9f5f1d 70%
+    );
+
+  border:
+    3px solid #70400f;
+
+  box-shadow:
+    8px 8px 0 #5a320b,
+    14px 16px 18px rgba(0,0,0,.30);
+}
+
+.pallet-card::after {
+  content: '';
+
+  position: absolute;
+
+  left: 18px;
+  right: 18px;
+
+  bottom: 16px;
+
+  height: 16px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #3a1f07 0 22%,
+      transparent 22% 39%,
+      #3a1f07 39% 61%,
+      transparent 61% 78%,
+      #3a1f07 78% 100%
+    );
+}
+
+.pallet-top {
+  position: absolute;
+
+  top: 28px;
+
+  left: 0;
+  right: 0;
+
+  text-align: center;
+
+  font-weight: 900;
+
+  color: #4b2808;
+}
+
+.pallet-name {
+  margin-top: 12px;
+
+  max-width: 190px;
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  color: #111;
+
+  text-align: center;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.pallet-wrapper.selected .pallet-card,
+.pallet-wrapper.bin-match .pallet-card {
+  outline:
+    5px solid #ffcc00;
+}
+
+
+/* =========================================================
+   FLOOR MATERIAL IMAGE
+========================================================= */
+
+.floor-details-column {
+  width: 400px;
+  min-width: 400px;
+
+  margin:
+    30px auto 0;
+
+  box-sizing: border-box;
+}
+
+.floor-details-column .side-material-image-box {
+  width: 400px;
+  min-width: 400px;
+
+  margin: 0;
+}
+
+
+/* =========================================================
+   MATCHED RACKS BAR
+========================================================= */
+
+.matched-racks-bar {
+  margin-top: 10px;
+
+  padding: 10px 14px;
+
+  background: #ffffff;
+
+  border-left:
+    5px solid #c40000;
+
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   CLEAR BUTTON
+========================================================= */
+
+.clear-btn {
+  border: 0;
+
+  background:
+    #c40000 !important;
+
+  color: #fff;
+
+  font-weight: 700;
+
+  width: 70px;
+  height: 25px;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   LAPTOP / MONITOR STABILITY
+========================================================= */
+
+@media (max-width: 1400px) {
+
+  .rack-stage {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .details-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-box {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .search-box input {
+    border-right:
+      1px solid #cfcfcf;
+  }
+}

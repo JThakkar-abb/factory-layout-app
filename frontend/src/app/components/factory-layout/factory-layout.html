@@ -1,0 +1,732 @@
+<div class="factory-viewport">
+  <div class="factory-page" [style.zoom]="layoutScale">
+
+    <!-- HEADER -->
+    <div class="factory-header">
+      <div>
+        <div class="abb-mark">ABB</div>
+        <div class="title">Senatobia Factory Layout</div>
+      </div>
+
+      <div class="subtitle">
+        Interactive Material Mapping
+      </div>
+    </div>
+
+
+    <!-- SEARCH -->
+    <div class="front-search-panel">
+      <input
+        type="text"
+        [(ngModel)]="materialSearch"
+        placeholder="Search material to show heatmap across factory"
+        (input)="onMaterialSearchInput()"
+      />
+
+      <button
+        type="button"
+        (click)="searchMaterial()">
+        Search
+      </button>
+
+      <button
+        type="button"
+        class="clear-btn"
+        (click)="clearMaterialSearch()">
+        Clear
+      </button>
+    </div>
+
+
+    <!-- SUMMARY -->
+    <div
+      class="heatmap-summary"
+      *ngIf="isSearching">
+      Searching...
+    </div>
+
+    <div
+      class="heatmap-summary"
+      *ngIf="searched && !isSearching">
+
+      <span *ngIf="totalLinesFound > 0">
+        Found in {{ totalLinesFound }} production line(s)
+      </span>
+
+      <span *ngIf="totalLinesFound === 0">
+        No matching material found
+      </span>
+
+    </div>
+
+
+    <!-- DASHBOARD CARDS -->
+    <div class="dashboard-cards">
+
+      <div class="summary-card">
+        <div class="summary-value">
+          {{ totalLines }}
+        </div>
+
+        <div class="summary-label">
+          Lines
+        </div>
+      </div>
+
+
+      <div class="summary-card">
+        <div class="summary-value">
+          {{ allMaterials.length }}
+        </div>
+
+        <div class="summary-label">
+          Materials
+        </div>
+      </div>
+
+
+      <div class="summary-card">
+        <div class="summary-value">
+          {{ totalFloorMaterials }}
+        </div>
+
+        <div class="summary-label">
+          Floor Pallets
+        </div>
+      </div>
+
+
+      <div class="summary-card">
+        <div class="summary-value">
+          {{ totalBins }}
+        </div>
+
+        <div class="summary-label">
+          Bins
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- LEGEND -->
+    <div class="canvas2">
+      <div class="layout-wrapper">
+
+        <div class="legend-panel">
+
+          <div class="legend-box">
+            <div class="legend-title">
+              IPU
+            </div>
+
+            <div class="legend-item">
+              <span class="dot purple"></span>
+              Emax 2
+            </div>
+
+            <div class="legend-item">
+              <span class="dot blue"></span>
+              XT7 / E1.2
+            </div>
+
+            <div class="legend-item">
+              <span class="dot orange"></span>
+              XT5
+            </div>
+
+            <div class="legend-item">
+              <span class="dot red"></span>
+              Tmax
+            </div>
+
+            <div class="legend-item">
+              <span class="dot green"></span>
+              ATS
+            </div>
+          </div>
+
+
+          <div class="legend-box">
+            <div class="legend-title">
+              Area
+            </div>
+
+            <div class="legend-item">
+              <span class="dot brown"></span>
+              Warehouse
+            </div>
+
+            <div class="legend-item">
+              <span class="dot yellow"></span>
+              General
+            </div>
+
+            <div class="legend-item">
+              <span class="dot brown"></span>
+              Shipping
+            </div>
+
+            <div class="legend-item">
+              <span class="pallet-icon">📦</span>
+              Floor Pallets
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- FACTORY MAP -->
+    <div class="canvas">
+
+      <!-- GENERAL AREAS -->
+      <div class="blk yellow recycling">
+        Recycling<br />
+        Room
+      </div>
+
+      <div class="blk yellow quality">
+        Quality Lab
+      </div>
+
+      <div class="blk yellow pipe">
+        Pipe Shop
+      </div>
+
+      <div class="blk yellow maintenance">
+        Maintenance Lab
+      </div>
+
+      <div class="blk yellow office-break">
+        Office &amp; Break Room
+      </div>
+
+
+      <!-- WAREHOUSE -->
+      <div
+        class="blk brown warehouse wh1 vertical-label"
+        (click)="openWarehouse()">
+        Warehouse
+      </div>
+
+
+      <!-- ================= XT2 / XT4 ================= -->
+
+      <div
+        class="blk red xttu clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'XT2XT4TU',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('XT2XT4TU')">
+
+        XT2 &amp; XT4<br />
+        Semi-Auto TU
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('XT2XT4TU')">
+          {{ getLineCount('XT2XT4TU') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('XT2XT4TU')">
+          📦
+        </span>
+
+      </div>
+
+
+      <div class="blk red xtbb">
+        XT2 / XT4 BB
+      </div>
+
+
+      <div
+        class="blk red xtato clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'XT2XT4ATO1',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('XT2XT4ATO1')">
+
+        XT2 / XT4 ATO
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('XT2XT4ATO1')">
+          {{ getLineCount('XT2XT4ATO1') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('XT2XT4ATO1')">
+          📦
+        </span>
+
+      </div>
+
+
+      <!-- ================= XT5 ================= -->
+
+      <div
+        class="blk orange xt5tu clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'XT5TU',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('XT5TU')">
+
+        XT5 TU
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('XT5TU')">
+          {{ getLineCount('XT5TU') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('XT5TU')">
+          📦
+        </span>
+
+      </div>
+
+
+      <div
+        class="blk orange xt5bb clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'XT5KIT',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('XT5KIT')">
+
+        XT5 BB
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('XT5KIT')">
+          {{ getLineCount('XT5KIT') }}
+        </span>
+
+      </div>
+
+
+      <div class="blk red welders">
+        XT2 / XT4<br />
+        Welders
+      </div>
+
+
+      <!-- ================= TMAX ================= -->
+
+      <div
+        class="blk red tmaxkit clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'TMAXKIT',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('TMAXKIT')">
+
+        Tmax Kitting
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('TMAXKIT')">
+          {{ getLineCount('TMAXKIT') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('TMAXKIT')">
+          📦
+        </span>
+
+      </div>
+
+
+      <div
+        class="blk red tmaxato clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'TMAXATO',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('TMAXATO')">
+
+        Tmax ATO
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('TMAXATO')">
+          {{ getLineCount('TMAXATO') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('TMAXATO')">
+          📦
+        </span>
+
+      </div>
+
+
+      <div
+        class="blk orange xt5ato clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'XT5ATO',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('XT5ATO')">
+
+        XT5 ATO
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('XT5ATO')">
+          {{ getLineCount('XT5ATO') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('XT5ATO')">
+          📦
+        </span>
+
+      </div>
+
+
+      <div
+        class="blk orange xt4kit clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'XT5KIT',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('XT5KIT')">
+
+        XT5 Kitting
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('XT5KIT')">
+          📦
+        </span>
+
+        <span
+          class="floor-dot"
+          *ngIf="hasFloorMaterials('XT5KIT')">
+        </span>
+
+      </div>
+
+
+      <!-- ================= EMAX2 ================= -->
+
+      <div
+        class="blk purple e1 vertical-label clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'EMAX2BB1',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('EMAX2BB1')">
+
+        Emax 2 BB (Line 1)
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('EMAX2BB1')">
+          {{ getLineCount('EMAX2BB1') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('EMAX2BB1')">
+          📦
+        </span>
+
+      </div>
+
+
+      <div
+        class="blk purple e2 vertical-label clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'EMAX2ATO',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('EMAX2ATO')">
+
+        Emax 2 ATO (Line 1 &amp; 2)
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('EMAX2ATO')">
+          {{ getLineCount('EMAX2ATO') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('EMAX2ATO')">
+          📦
+        </span>
+
+      </div>
+
+
+      <div
+        class="blk purple e3 vertical-label clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'EMAX2BB23',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('EMAX2BB23')">
+
+        Emax 2 BB (Lines 2 &amp; 3)
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('EMAX2BB23')">
+          {{ getLineCount('EMAX2BB23') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('EMAX2BB23')">
+          📦
+        </span>
+
+      </div>
+
+
+      <div
+        class="blk purple e4 vertical-label clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'EMAX2PL_ST',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('EMAX2PL_ST')">
+
+        Emax 2 Pole Line
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('EMAX2PL_ST')">
+          {{ getLineCount('EMAX2PL_ST') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('EMAX2PL_ST')">
+          📦
+        </span>
+
+      </div>
+
+
+      <!-- ================= XT7 / E1.2 ================= -->
+
+      <div
+        class="blk blue b1 vertical-label clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'XT7BB',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('XT7BB')">
+
+        XT7/E1.2 BB (Line 1 &amp; 2)
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('XT7BB')">
+          {{ getLineCount('XT7BB') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('XT7BB')">
+          📦
+        </span>
+
+      </div>
+
+
+      <div
+        class="blk blue b2 vertical-label clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'XT7_E1.2.KIT',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('XT7_E1.2.KIT')">
+
+        XT7/E1.2 ATO (Line 1 &amp; 2)
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('XT7_E1.2.KIT')">
+          {{ getLineCount('XT7_E1.2.KIT') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('XT7_E1.2.KIT')">
+          📦
+        </span>
+
+      </div>
+
+
+      <div
+        class="blk blue b3 vertical-label clickable"
+        routerLink="/mapping"
+        [queryParams]="{
+          line: 'XT7_E1.2.KIT',
+          search: materialSearch
+        }"
+        [ngClass]="getHeatClass('XT7_E1.2.KIT')">
+
+        XT7/E1.2 ATO (Line 3 &amp; 4)
+
+        <span
+          class="heat-badge"
+          *ngIf="isLineHot('XT7_E1.2.KIT')">
+          {{ getLineCount('XT7_E1.2.KIT') }}
+        </span>
+
+        <span
+          class="floor-pallet-icon"
+          *ngIf="hasFloorMaterials('XT7_E1.2.KIT')">
+          📦
+        </span>
+
+      </div>
+
+
+      <!-- ================= RIGHT SIDE ================= -->
+
+      <div class="right-zone">
+
+        <div class="blk red iron">
+          Iron Horse /<br />
+          Project Breakers
+        </div>
+
+
+        <div class="blk green r5">
+          R5 / R5B
+        </div>
+
+
+        <div class="blk green r4">
+          R4 / R4B
+        </div>
+
+
+        <div
+          class="blk green truone1 clickable"
+          routerLink="/mapping"
+          [queryParams]="{
+            line: 'TRUONE_LINE1',
+            search: materialSearch
+          }"
+          [ngClass]="getHeatClass('TRUONE_LINE1')">
+
+          TruOne Line 1
+
+          <span
+            class="heat-badge"
+            *ngIf="isLineHot('TRUONE_LINE1')">
+            {{ getLineCount('TRUONE_LINE1') }}
+          </span>
+
+          <span
+            class="floor-pallet-icon"
+            *ngIf="hasFloorMaterials('TRUONE_LINE1')">
+            📦
+          </span>
+
+        </div>
+
+
+        <div
+          class="blk green truone-switch clickable"
+          routerLink="/mapping"
+          [queryParams]="{
+            line: 'TRUONE_SW',
+            search: materialSearch
+          }"
+          [ngClass]="getHeatClass('TRUONE_SW')">
+
+          TruOne Switch Line
+
+          <span
+            class="heat-badge"
+            *ngIf="isLineHot('TRUONE_SW')">
+            {{ getLineCount('TRUONE_SW') }}
+          </span>
+
+          <span
+            class="floor-pallet-icon"
+            *ngIf="hasFloorMaterials('TRUONE_SW')">
+            📦
+          </span>
+
+        </div>
+
+
+        <div class="blk green truone2">
+          TruOne Line 2
+        </div>
+
+
+        <div class="blk green service">
+          Service<br />
+          Entrance
+        </div>
+
+
+        <div class="blk brown ship1 vertical-label">
+          Shipping
+        </div>
+
+
+        <div class="blk brown ship2 vertical-label">
+          Shipping
+        </div>
+
+
+        <div class="blk yellow office-notch">
+        </div>
+
+
+        <div class="blk yellow office-main">
+          Office / Front Desk / Canteen
+        </div>
+
+      </div>
+
+    </div>
+    <!-- END FACTORY MAP -->
+
+
+  </div>
+  <!-- END factory-page -->
+
+</div>
+<!-- END factory-viewport -->

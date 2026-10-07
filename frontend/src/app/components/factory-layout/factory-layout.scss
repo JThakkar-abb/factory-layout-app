@@ -1,0 +1,1178 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  overflow: hidden;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  background-size: cover;
+  background-position: center;
+}
+
+
+/* =========================================================
+   RESPONSIVE VIEWPORT
+   The complete 1840px layout is scaled by layoutScale
+   from factory-layout.ts
+========================================================= */
+
+.factory-viewport {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+
+/* =========================================================
+   MASTER FACTORY PAGE
+
+   IMPORTANT:
+   Keep this fixed at 1840px.
+   Do NOT use another CSS transform scale here.
+   Angular [style.zoom]="layoutScale" handles scaling.
+========================================================= */
+
+.factory-page {
+  width: 1840px;
+  min-width: 1840px;
+
+  padding: 20px;
+  margin: 0 auto;
+
+  box-sizing: border-box;
+
+  transform-origin: top center;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.factory-header {
+  width: 100%;
+
+  margin: 0 auto 16px;
+
+  background: #ffffff;
+
+  border: 8px solid #d8d8d8;
+  border-top: 5px solid #c40000;
+
+  padding: 18px 22px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+
+.abb-mark {
+  color: #c40000;
+
+  font-size: 50px;
+  font-weight: 900;
+
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+
+.title {
+  margin-top: 6px;
+
+  font-size: 50px;
+  font-weight: 800;
+
+  color: #222;
+}
+
+
+.subtitle {
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #666;
+
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+
+/* =========================================================
+   MATERIAL SEARCH
+========================================================= */
+
+.front-search-panel {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+
+  margin: 14px auto;
+
+  width: 720px;
+  max-width: 100%;
+}
+
+
+.front-search-panel input {
+  flex: 1;
+
+  height: 42px;
+
+  padding: 0 20px;
+
+  border: 5px solid #cfcfcf;
+
+  box-sizing: border-box;
+
+  font-size: 14px;
+}
+
+
+.front-search-panel button {
+  height: 42px;
+
+  padding: 0 16px;
+
+  border: none;
+
+  background: #c40000;
+
+  color: white;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.front-search-panel .clear-btn {
+  background: #555;
+}
+
+
+/* =========================================================
+   SEARCH SUMMARY
+========================================================= */
+
+.heatmap-summary {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  font-weight: 700;
+
+  margin: 10px auto;
+
+  color: #333;
+
+  width: 100%;
+}
+
+
+/* =========================================================
+   DASHBOARD CARDS
+========================================================= */
+
+.dashboard-cards {
+  width: 100%;
+
+  margin: 20px auto;
+
+  display: flex;
+
+  gap: 16px;
+
+  box-sizing: border-box;
+}
+
+
+.summary-card {
+  flex: 1;
+
+  background: white;
+
+  border-top: 4px solid #e00000;
+
+  border-radius: 8px;
+
+  padding: 18px;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.08);
+
+  text-align: center;
+
+  transition: all 0.2s ease;
+}
+
+
+.summary-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+.summary-value {
+  font-size: 34px;
+
+  font-weight: 900;
+
+  color: #111;
+}
+
+
+.summary-label {
+  margin-top: 6px;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  color: #666;
+}
+
+
+/* =========================================================
+   LEGEND AREA
+========================================================= */
+
+.canvas2 {
+  position: relative;
+
+  width: 280px;
+  height: 230px;
+
+  top: 0;
+  left: 700px;
+
+  margin: 0 auto;
+
+  background-size: 32px 32px;
+
+  box-sizing: border-box;
+}
+
+
+.layout-wrapper {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 60px;
+}
+
+
+/* =========================================================
+   LEGEND PANEL
+========================================================= */
+
+.legend-panel {
+  width: 500px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 30px;
+}
+
+
+.legend-box {
+  background: #ffffff;
+
+  border-radius: 12px;
+
+  padding: 17px 22px;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1);
+
+  border: 8px solid #bdbdbd;
+
+  box-sizing: border-box;
+}
+
+
+.legend-title {
+  background: #000;
+
+  color: #fff;
+
+  text-align: center;
+
+  font-size: 23px;
+
+  font-weight: bold;
+
+  padding: 12px;
+
+  border-radius: 6px;
+
+  margin-bottom: 10px;
+}
+
+
+.legend-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 25px;
+
+  margin: 25px 20px;
+}
+
+
+.dot {
+  width: 18px;
+  height: 18px;
+
+  border-radius: 90%;
+
+  display: inline-block;
+
+  flex-shrink: 0;
+}
+
+
+/* DOT COLORS */
+
+.dot.red {
+  background: #d35454;
+}
+
+.dot.blue {
+  background: #78b0dd;
+}
+
+.dot.yellow {
+  background: #ffcc00;
+}
+
+.dot.orange {
+  background: #ff7a00;
+}
+
+.dot.green {
+  background: #00c853;
+}
+
+.dot.purple {
+  background: #b07bc2;
+}
+
+.dot.brown {
+  background: #c26a00;
+}
+
+.salmon {
+  background: #ff8a75;
+}
+
+
+.pallet-icon {
+  font-size: 20px;
+
+  width: 20px;
+
+  display: inline-block;
+}
+
+
+/* =========================================================
+   MAIN FACTORY CANVAS
+========================================================= */
+
+.canvas {
+  position: relative;
+
+  width: 1800px;
+  height: 850px;
+
+  /*
+    Keep your original vertical positioning.
+    Horizontal negative positioning was removed so the
+    canvas stays centered inside the 1840px master page.
+  */
+  left: 0;
+  top: -230px;
+
+  margin: 0 auto;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      rgba(0, 0, 0, 0.025) 1px,
+      transparent 1px
+    ),
+    #e7e7e7;
+
+  background-size: 32px 32px;
+
+  border: 8px solid #bdbdbd;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MAIN FACTORY BLOCKS
+========================================================= */
+
+.blk {
+  position: absolute;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-weight: 700;
+
+  color: #111;
+
+  line-height: 1.12;
+
+  padding: 6px;
+
+  border-radius: 4px;
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 6px 0 rgba(0, 0, 0, 0.25),
+    0 10px 15px rgba(0, 0, 0, 0.15);
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+.blk:hover {
+  border-color: rgba(0, 0, 0, 0.28);
+
+  cursor: pointer;
+}
+
+
+.clickable {
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   VERTICAL LABEL
+========================================================= */
+
+.vertical-label {
+  writing-mode: vertical-rl;
+
+  text-orientation: mixed;
+
+  transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   COLORS
+========================================================= */
+
+.yellow {
+  background:
+    linear-gradient(
+      to bottom,
+      #f4f1a6,
+      #d8cf6e
+    );
+}
+
+
+.green {
+  background:
+    linear-gradient(
+      to bottom,
+      #ccebc8,
+      #94c48e
+    );
+}
+
+
+.red {
+  background:
+    linear-gradient(
+      to bottom,
+      #f2c6c6,
+      #d59c9c
+    );
+}
+
+
+.orange {
+  background:
+    linear-gradient(
+      to bottom,
+      #f4d6a8,
+      #d4aa6f
+    );
+}
+
+
+.warehouse {
+  background:
+    linear-gradient(
+      to bottom,
+      #c29462,
+      #c29462
+    );
+}
+
+
+.purple {
+  background:
+    linear-gradient(
+      to bottom,
+      #e0b3f0,
+      #b07bc2
+    );
+}
+
+
+.blue {
+  background:
+    linear-gradient(
+      to bottom,
+      #cfe0f7,
+      #8ea8c9
+    );
+}
+
+
+.ship1 {
+  background:
+    linear-gradient(
+      to bottom,
+      #c29462,
+      #c29462
+    );
+}
+
+
+.ship2 {
+  background:
+    linear-gradient(
+      to bottom,
+      #c29462,
+      #c29462
+    );
+}
+
+
+/* =========================================================
+   FACTORY POSITIONS
+========================================================= */
+
+.recycling {
+  left: 170px;
+  top: 52px;
+
+  width: 88px;
+  height: 96px;
+
+  font-size: 18px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.quality {
+  left: 270px;
+  top: 52px;
+
+  width: 300px;
+  height: 96px;
+
+  font-size: 20px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.pipe {
+  left: 580px;
+  top: 52px;
+
+  width: 300px;
+  height: 96px;
+
+  font-size: 20px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.maintenance {
+  left: 890px;
+  top: 52px;
+
+  width: 270px;
+  height: 96px;
+
+  font-size: 20px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.office-break {
+  left: 240px;
+  top: 166px;
+
+  width: 920px;
+  height: 82px;
+
+  font-size: 18px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.wh1 {
+  left: 8px;
+  top: 100px;
+
+  width: 155px;
+  height: 720px;
+
+  font-size: 18px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.xttu {
+  left: 242px;
+  top: 286px;
+
+  width: 156px;
+  height: 66px;
+
+  font-size: 14px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.xtbb {
+  left: 242px;
+  top: 354px;
+
+  width: 156px;
+  height: 40px;
+
+  font-size: 14px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.xtato {
+  left: 404px;
+  top: 286px;
+
+  width: 350px;
+  height: 108px;
+
+  font-size: 16px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.xt5tu {
+  left: 800px;
+  top: 286px;
+
+  width: 356px;
+  height: 68px;
+
+  font-size: 16px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.xt5bb {
+  left: 800px;
+  top: 350px;
+
+  width: 356px;
+  height: 52px;
+
+  font-size: 16px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.welders {
+  left: 1188px;
+  top: 275px;
+
+  width: 160px;
+  height: 53px;
+
+  font-size: 13px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.tmaxkit {
+  left: 242px;
+  top: 432px;
+
+  width: 156px;
+  height: 96px;
+
+  font-size: 16px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.tmaxato {
+  left: 404px;
+  top: 432px;
+
+  width: 350px;
+  height: 96px;
+
+  font-size: 16px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.xt5ato {
+  left: 800px;
+  top: 432px;
+
+  width: 265px;
+  height: 96px;
+
+  font-size: 16px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.xt4kit {
+  left: 1065px;
+  top: 432px;
+
+  width: 92px;
+  height: 96px;
+
+  font-size: 14px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+/* =========================================================
+   EMAX 2
+========================================================= */
+
+.e1 {
+  left: 245px;
+  top: 570px;
+
+  width: 58px;
+  height: 250px;
+
+  font-size: 17px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.e2 {
+  left: 310px;
+  top: 570px;
+
+  width: 88px;
+  height: 250px;
+
+  font-size: 17px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.e3 {
+  left: 405px;
+  top: 570px;
+
+  width: 58px;
+  height: 250px;
+
+  font-size: 17px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.e4 {
+  left: 470px;
+  top: 570px;
+
+  width: 58px;
+  height: 250px;
+
+  font-size: 17px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+/* =========================================================
+   XT7 / E1.2
+========================================================= */
+
+.b1 {
+  left: 612px;
+  top: 570px;
+
+  width: 72px;
+  height: 250px;
+
+  font-size: 17px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.b2 {
+  left: 688px;
+  top: 570px;
+
+  width: 84px;
+  height: 250px;
+
+  font-size: 17px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.b3 {
+  left: 776px;
+  top: 570px;
+
+  width: 72px;
+  height: 250px;
+
+  font-size: 17px;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+/* =========================================================
+   RIGHT FACTORY AREA
+========================================================= */
+
+.right-zone {
+  position: absolute;
+
+  left: 1188px;
+  top: 52px;
+
+  width: 590px;
+  height: 730px;
+}
+
+
+.right-zone .iron,
+.right-zone .r5,
+.right-zone .r4,
+.right-zone .truone1,
+.right-zone .truone-switch,
+.right-zone .truone2,
+.right-zone .service,
+.right-zone .ship1,
+.right-zone .ship2,
+.right-zone .office-notch,
+.right-zone .office-main {
+  position: absolute;
+
+  border: 3px solid #7a7a7a;
+}
+
+
+.right-zone .iron {
+  left: 28px;
+  top: 0;
+
+  width: 204px;
+  height: 96px;
+
+  font-size: 16px;
+}
+
+
+.right-zone .r5 {
+  left: 230px;
+  top: 0;
+
+  width: 224px;
+  height: 96px;
+
+  font-size: 18px;
+}
+
+
+.right-zone .r4 {
+  left: 132px;
+  top: 118px;
+
+  width: 275px;
+  height: 60px;
+
+  font-size: 17px;
+}
+
+
+.right-zone .truone1 {
+  left: 0;
+  top: 275px;
+
+  width: 160px;
+  height: 140px;
+}
+
+
+.right-zone .truone-switch {
+  left: 160px;
+  top: 225px;
+
+  width: 250px;
+  height: 55px;
+}
+
+
+.right-zone .truone2 {
+  left: 160px;
+  top: 275px;
+
+  width: 250px;
+  height: 55px;
+}
+
+
+.right-zone .service {
+  left: 0;
+  top: 415px;
+
+  width: 95px;
+  height: 60px;
+}
+
+
+.right-zone .ship1 {
+  left: 435px;
+  top: 150px;
+
+  width: 68px;
+  height: 325px;
+
+  font-size: 23px;
+}
+
+
+.right-zone .ship2 {
+  left: 510px;
+  top: 150px;
+
+  width: 68px;
+  height: 325px;
+
+  font-size: 23px;
+}
+
+
+.right-zone .office-notch {
+  left: 90px;
+  top: 415px;
+
+  width: 70px;
+  height: 60px;
+}
+
+
+.right-zone .office-main {
+  left: 160px;
+  top: 325px;
+
+  width: 250px;
+  height: 150px;
+
+  font-size: 18px;
+}
+
+
+/* =========================================================
+   FLOOR PALLET ICON
+========================================================= */
+
+.floor-pallet-icon {
+  position: absolute;
+
+  bottom: 5px;
+  left: 2px;
+
+  font-size: 20px;
+
+  line-height: 1;
+
+  padding: 0;
+}
+
+
+.floor-dot {
+  position: absolute;
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  bottom: 5px;
+  right: 5px;
+
+  background: #c40000;
+}
+
+
+/* =========================================================
+   HEATMAP BADGE
+========================================================= */
+
+.heat-badge {
+  position: absolute;
+
+  top: 6px;
+  right: 6px;
+
+  min-width: 32px;
+
+  height: 22px;
+
+  padding: 0 6px;
+
+  border-radius: 999px;
+
+  background: #b30101;
+
+  color: #fff;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   HEATMAP HIGHLIGHTS
+========================================================= */
+
+.heat-low {
+  animation:
+    heatPulse 1.2s infinite;
+
+  outline:
+    4px solid #ffcc00;
+
+  box-shadow:
+    0 0 0 5px rgba(255, 204, 0, 0.8),
+    0 0 24px rgba(255, 204, 0, 1);
+
+  z-index: 5;
+}
+
+
+.heat-medium {
+  animation:
+    heatPulse 1.2s infinite;
+
+  outline:
+    4px solid #ff8000;
+
+  box-shadow:
+    0 0 0 5px rgba(255, 128, 0, 0.85),
+    0 0 24px rgba(255, 128, 0, 1);
+
+  z-index: 5;
+}
+
+
+.heat-high {
+  animation:
+    heatPulse 1s infinite;
+
+  outline:
+    4px solid #dc0000;
+
+  box-shadow:
+    0 0 0 5px rgba(220, 0, 0, 0.9),
+    0 0 28px rgba(220, 0, 0, 1);
+
+  z-index: 5;
+}
+
+
+@keyframes heatPulse {
+  0% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.18);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
+}

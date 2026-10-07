@@ -1,0 +1,176 @@
+<div class="xt-page">
+  <div class="topbar">
+    <a routerLink="/" class="back-btn">Back</a>
+    <div class="title">XT2 / XT4 ATO Material Mapping</div>
+  </div>
+
+  <div class="search-panel">
+    <div class="search-title">Search Material</div>
+
+    <div class="search-box-wrap">
+      <div class="search-box">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search by Material, Description, External Kanban ID"
+          (input)="onSearchInput()"
+          (focus)="onSearchInput()"
+          (blur)="hideSuggestions()"
+          (keyup.enter)="onSearch()"
+        />
+        <button type="button" (click)="onSearch()">Search</button>
+      </div>
+
+      <div class="suggestions-dropdown" *ngIf="showSuggestions && filteredSuggestions.length > 0">
+        <div
+          class="suggestion-item"
+          *ngFor="let suggestion of filteredSuggestions"
+          (mousedown)="selectSuggestion(suggestion)"
+        >
+          <div class="suggestion-title">{{ suggestion.material }}</div>
+          <div class="suggestion-meta">
+            {{ suggestion.description }} |
+            Rack {{ suggestion.rack }} |
+            Level {{ suggestion.level }} |
+            Bin {{ suggestion.bin }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rack-tabs">
+      <button
+        type="button"
+        [class.active]="selectedRack === 'ALL'"
+        (click)="selectRack('ALL')"
+      >
+        ALL
+      </button>
+
+      <button
+        type="button"
+        *ngFor="let rack of rackList"
+        [class.active]="selectedRack === rack"
+        (click)="selectRack(rack)"
+      >
+        Rack {{ rack }} 
+      </button>
+    </div>
+
+    <div class="location-bar">
+      {{
+        selectedBin
+          ? ('Rack ' + selectedBin.rack +
+             ' | Level ' + selectedBin.level +
+             ' | Bin ' + selectedBin.bin)
+          : '--'
+      }}
+    </div>
+  </div>
+
+  <div class="details-panel">
+    <div class="details-header">Selected Material</div>
+
+    <div class="details-grid">
+      <div class="detail-box">
+        <span>Material</span>
+        <strong>{{ selectedBin?.material || '--' }}</strong>
+      </div>
+
+      <div class="detail-box">
+        <span>Description</span>
+        <strong>{{ selectedBin?.description || '--' }}</strong>
+      </div>
+
+      <div class="detail-box">
+        <span>Quantity</span>
+        <strong>{{ selectedBin?.qty ?? '--' }}</strong>
+      </div>
+
+      <div class="detail-box">
+        <span>Rack</span>
+        <strong>{{ selectedBin?.rack || '--' }}</strong>
+      </div>
+
+      <div class="detail-box">
+        <span>Level</span>
+        <strong>{{ selectedBin?.level ?? '--' }}</strong>
+      </div>
+
+      <div class="detail-box">
+        <span>Bin</span>
+        <strong>{{ selectedBin?.bin ?? '--' }}</strong>
+      </div>
+
+      <div class="detail-box">
+        <span>Bin Size</span>
+        <strong>{{ selectedBin?.binSize || '--' }}</strong>
+      </div>
+
+      <div class="detail-box full">
+        <span>External Kanban ID</span>
+        <strong>{{ selectedBin?.externalKanbanId || '--' }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="rack-layout">
+    <div class="rack-card" *ngFor="let rack of rackGroups">
+      <div class="rack-header">Rack {{ rack.rack }}</div>
+
+      <div
+        class="level-card"
+        *ngFor="let level of rack.levels"
+        [ngClass]="'level-' + level.level"
+      >
+        <div class="level-header">
+          Level {{ level.level }}
+        </div>
+
+        <div class="bin-grid">
+          <div
+            class="bin-card"
+            *ngFor="let bin of level.bins"
+            [attr.id]="'bin-' + bin.key"
+            [class.selected]="selectedBinKey === bin.key"
+            (click)="selectBin(bin)"
+          >
+            <div class="bin-top">
+              Bin {{ bin.bin }}
+            </div>
+
+            <div
+              class="bin-material"
+              [class.selected-text]="selectedBinKey === bin.key"
+            >
+              {{ bin.material }}
+            </div>
+
+            <div
+              class="bin-desc"
+              [class.selected-text]="selectedBinKey === bin.key"
+            >
+              {{ bin.description }}
+            </div>
+
+            <div class="bin-meta">
+              <div
+                class="bin-qty"
+                [class.selected-text]="selectedBinKey === bin.key"
+              >
+                Qty: {{ bin.qty }}
+              </div>
+
+              <div
+                class="bin-kanban"
+                [class.selected-text]="selectedBinKey === bin.key"
+              >
+                Kanban: {{ bin.externalKanbanId || '--' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

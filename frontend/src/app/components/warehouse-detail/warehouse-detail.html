@@ -1,0 +1,189 @@
+<div class="mapping-page">
+
+  <div class="topbar">
+    <a routerLink="/" class="back-btn">Back</a>
+
+    <div>
+      <div class="title">Warehouse Material Mapping</div>
+      <div class="subtitle">Dynamic Warehouse Layout</div>
+    </div>
+  </div>
+
+  <div class="search-panel">
+    <div class="search-title">Search Material</div>
+
+    <div class="search-box-wrap">
+      <div class="search-box">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search by Material, Description, Storage Bin, or Location"
+          (input)="onSearchInput()"
+          (focus)="onSearchInput()"
+          (blur)="hideSuggestions()"
+          (keyup.enter)="onSearch()"
+        />
+
+        <button type="button" (click)="onSearch()">Search</button>
+      </div>
+
+      <div
+        class="suggestions-dropdown"
+        *ngIf="showSuggestions && filteredSuggestions.length > 0"
+      >
+        <div
+          class="suggestion-item"
+          *ngFor="let suggestion of filteredSuggestions"
+          (mousedown)="selectSuggestion(suggestion)"
+        >
+          <div class="suggestion-title">{{ suggestion.material }}</div>
+
+          <div class="suggestion-meta">
+            {{ suggestion.description }} |
+            LV{{ suggestion.level }} |
+            Row {{ suggestion.row }} |
+            {{ suggestion.block }} |
+            Bin {{ suggestion.bin }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="location-bar">
+      {{
+        selectedBin
+          ? ('LV' + selectedBin.level +
+             ' | Row ' + selectedBin.row +
+             ' | ' + selectedBin.block +
+             ' | Bin ' + selectedBin.bin)
+          : selectedLevel === 'ALL'
+            ? 'ALL'
+            : 'LV' + selectedLevel
+      }}
+    </div>
+
+    <div class="level-tabs">
+      <button
+        type="button"
+        [class.active]="selectedLevel === 'ALL'"
+        (click)="selectLevel('ALL')"
+      >
+        ALL
+      </button>
+
+      <button
+        type="button"
+        *ngFor="let level of levels"
+        [class.active]="selectedLevel === level.level"
+        (click)="selectLevel(level.level)"
+      >
+        LV{{ level.level }}
+      </button>
+    </div>
+  </div>
+
+  <div class="details-panel">
+    <div class="details-header">Selected Material</div>
+
+    <div class="details-grid">
+      <div class="detail-box">
+        <span>Material</span>
+        <strong>{{ selectedBin?.material || '--' }}</strong>
+      </div>
+
+      <div class="detail-box full">
+        <span>Material Description</span>
+        <strong>{{ selectedBin?.description || '--' }}</strong>
+      </div>
+
+      
+
+
+      <div class="detail-box">
+        <span>Level</span>
+        <strong>{{ selectedBin ? 'LV' + selectedBin.level : '--' }}</strong>
+      </div>
+
+      <div class="detail-box">
+        <span>Row</span>
+        <strong>{{ selectedBin?.row ?? '--' }}</strong>
+      </div>
+
+      <div class="detail-box">
+        <span>Block</span>
+        <strong>{{ selectedBin?.block || '--' }}</strong>
+      </div>
+
+      <div class="detail-box">
+        <span>Bin</span>
+        <strong>{{ selectedBin?.bin ?? '--' }}</strong>
+      </div>
+
+      <div class="detail-box full">
+        <span>Warehouse Map</span>
+        <strong>{{ selectedBin?.warehouseMap || '--' }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="rack-layout">
+    <div class="rack-card" *ngFor="let level of visibleLevels">
+      <div class="rack-header">LV{{ level.level }}</div>
+
+      <div class="level-card" *ngFor="let row of level.rows">
+        <div class="level-header">Row {{ row.row }}</div>
+
+        <div class="block-grid">
+          <div class="block-card" *ngFor="let block of row.blocks">
+            <div class="block-header">{{ block.block }}</div>
+
+            <div class="bin-grid">
+              <div
+                class="bin-card"
+                *ngFor="let bin of block.bins"
+                [attr.id]="'warehouse-bin-' + bin.key"
+                [class.selected]="selectedBinKey === bin.key"
+                (click)="selectBin(bin)"
+              >
+                <div class="bin-top">Bin {{ bin.bin }}</div>
+
+                <div
+                  class="bin-material"
+                  [class.selected-text]="selectedBinKey === bin.key"
+                >
+                  {{ bin.material }}
+                </div>
+
+                <div
+                  class="bin-desc"
+                  [class.selected-text]="selectedBinKey === bin.key"
+                >
+                  {{ bin.description }}
+                </div>
+
+                <div class="bin-meta">
+                  <div
+                    class="bin-qty"
+                    [class.selected-text]="selectedBinKey === bin.key"
+                  >
+                    Qty: {{ bin.qty }} {{ bin.unit || '' }}
+                  </div>
+
+                  <div
+                    class="bin-kanban"
+                    [class.selected-text]="selectedBinKey === bin.key"
+                  >
+                    {{ bin.storageBin || bin.warehouseMap || '--' }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
